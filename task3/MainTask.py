@@ -54,7 +54,7 @@ class TodoJournal:
                 )
         except FileNotFoundError as error:
             print(f"{error}")
-            print(f"Не существует такой тудушки: {self.path_todo}")
+            print(f"Не существует такого файла: {self.path_todo}")
             sys.exit(1)
 
         except PermissionError as error:
@@ -74,8 +74,8 @@ class TodoJournal:
         """
         data = self._parse()
 
-        name = data["name"]
-        todos = data["todos"]
+        name = data[0]["name"]
+        todos = data[0]["todos"]
 
         todos.append(new_entry)
 
@@ -159,7 +159,8 @@ class TodoJournal:
 
 
 def main():
-    pass
+    TodaysTodos = TodoJournal('./task3.json', 'Dела на сегодня')
+    TodaysTodos.add_entry("Баловаться")
 
 if __name__ == '__main__':
     main()
