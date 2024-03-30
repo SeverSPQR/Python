@@ -98,8 +98,8 @@ class TodoJournal:
         data = self._parse()
         name = data["name"]
         todos = data["todos"]
-        if (index > len(data["todos"])):
-            todos.remove(todos[index])
+
+        todos.remove(todos[index])
 
         new_data = {
             "name": name,
