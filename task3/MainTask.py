@@ -74,8 +74,8 @@ class TodoJournal:
         """
         data = self._parse()
 
-        name = data[0]["name"]
-        todos = data[0]["todos"]
+        name = data["name"]
+        todos = data["todos"]
 
         todos.append(new_entry)
 
@@ -159,8 +159,8 @@ class TodoJournal:
 
 
 def main():
-    TodaysTodos = TodoJournal('./task3.json', 'Dела на сегодня')
-    TodaysTodos.add_entry("Баловаться")
+    TodaysTodos = TodoJournal('./task3.json', 'cosa io viglio fare oggi')
+    TodaysTodos.add_entry("litigare")
 
 if __name__ == '__main__':
     main()
