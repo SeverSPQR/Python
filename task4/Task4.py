@@ -76,7 +76,8 @@ class TodoJournal:
         name = data["name"]
         todos = data["todos"]
 
-        todos.append(new_entry)
+        if (new_entry not in data["todos"]):
+            todos.append(new_entry)
 
         new_data = {
             "name": name,
@@ -97,8 +98,8 @@ class TodoJournal:
         data = self._parse()
         name = data["name"]
         todos = data["todos"]
-
-        todos.remove(todos[index])
+        if (index > len(data["todos"])):
+            todos.remove(todos[index])
 
         new_data = {
             "name": name,
@@ -156,5 +157,9 @@ class TodoJournal:
             print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
             sys.exit(2)
 
+def main():
+    TodaysTodos = TodoJournal('./task4.json', 'cosa io viglio fare oggi')
+    TodaysTodos.add_entry("litigare")
 
-
+if __name__ == '__main__':
+    main()
