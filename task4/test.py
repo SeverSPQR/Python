@@ -28,14 +28,14 @@ def json_prepare():
 def test_len(json_prepare):
     """_len должен проверить количество задач"""
     filename = json_prepare
-    journal = Task4.TodoJournal(filename, 'cosa io viglio fare oggi')
-    assert len(journal._parse()["todos"]) == 6
+    journal = Task4.TodoJournal(filename)
+    assert journal.__len__() == 6
 
 
 def test_addentry(json_prepare):
     """_addentry должен показать, что новая задача была добавлена"""
     filename = json_prepare
-    journal = Task4.TodoJournal(filename, 'cosa io viglio fare oggi')
+    journal = Task4.TodoJournal(filename)
     journal.add_entry("comprare videogioco")
     assert journal._parse()["todos"][len(journal._parse()["todos"]) - 1] == "comprare videogioco"
 
@@ -43,7 +43,7 @@ def test_addentry(json_prepare):
 def test_removeentry(json_prepare):
     """_removeentry должен показать, что задача была удалена"""
     filename = json_prepare
-    journal = Task4.TodoJournal(filename, 'cosa io viglio fare oggi')
+    journal = Task4.TodoJournal(filename)
     journal.remove_entry(len(journal._parse()["todos"]) - 1)
     assert len(journal._parse()["todos"]) == 5
 
@@ -57,6 +57,6 @@ def test_parse(json_prepare):
         "lavare via i peccati",
         "fare scherzi",
         "litigare"]
-    journal = Task4.TodoJournal(filename, 'cosa io viglio fare oggi')
+    journal = Task4.TodoJournal(filename)
     data = journal._parse()
     assert arr == data["todos"]

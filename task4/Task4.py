@@ -137,6 +137,7 @@ class TodoJournal:
             sys.exit(2)
 
     def __len__(self):
+        """Возвращает количество задач"""
         return len(self.entries)
 
     def __iter__(self):
