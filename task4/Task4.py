@@ -78,17 +78,13 @@ class TodoJournal:
         new_entry : str
             новая задача
         """
-        data = self._parse()
 
-        name = data["name"]
-        todos = data["todos"]
-
-        if (new_entry not in data["todos"]):
-            todos.append(new_entry)
+        if (new_entry not in self.entries):
+            self.entries.append(new_entry)
 
         new_data = {
-            "name": name,
-            "todos": todos,
+            "name": self.name,
+            "todos": self.entries,
         }
 
         self._update(new_data)
@@ -102,15 +98,12 @@ class TodoJournal:
         index : int
             индекс удаляемой тудушки
         """
-        data = self._parse()
-        name = data["name"]
-        todos = data["todos"]
 
-        todos.remove(todos[index])
+        self.entries.pop(index)
 
         new_data = {
-            "name": name,
-            "todos": todos,
+            "name": self.name,
+            "todos": self.entries,
         }
 
         self._update(new_data)
