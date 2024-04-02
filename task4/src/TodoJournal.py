@@ -178,13 +178,12 @@ class TodoJournal:
             print(f"{error}")
             print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
             sys.exit(2)
-
-def main():
-    TodaysTodos = TodoJournal('./task4.json')
+'''def main():
+    TodaysTodos = TodoJournal('../task4.json')
     for i in TodaysTodos:
         print(i)
     print(TodaysTodos[1])
 
 
 if __name__ == '__main__':
-    main()
+    main()'''
