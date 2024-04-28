@@ -1,6 +1,5 @@
-import json
 import sys
-
+import json
 
 class TodoJournal:
     """
@@ -26,7 +25,7 @@ class TodoJournal:
    _parse(self):
         Получение данных о тудушках
     """
-    def __init__(self, path_todo, name):
+    def __init__(self, path_todo):
         """
         Устанавливает все необходимые атрибуты для объекта TodoJournal.
         Параметры
@@ -35,18 +34,25 @@ class TodoJournal:
             название тудушки
         path_todo : str
             путь к журналу
+        entries : list
+            массив задач
+        counter : int
+            счетчик для итерирования
         """
         self.path_todo = path_todo
-        self.name = name
+        self.name = self._parse()["name"]
+        self.entries = self._parse()["todos"]
+        self.counter = 0
 
-    def create(self):
+    @staticmethod
+    def create(filename, name):
         """
-        Копирует данные из объекта в json файл
+        Создаёт json файл для задач
         """
         try:
-            with open(self.path_todo, "w", encoding='utf-8') as todo_file:
+            with open(filename, "w", encoding='utf-8') as todo_file:
                 json.dump(
-                    {"name": self.name, "todos": []},
+                    {"name": name, "todos": []},
                     todo_file,
                     sort_keys=True,
                     indent=4,
@@ -54,13 +60,13 @@ class TodoJournal:
                 )
         except FileNotFoundError as error:
             print(f"{error}")
-            print(f"Не существует такого файла: {self.path_todo}")
+            print(f"Не существует такой тудушки: {filename}")
             sys.exit(1)
 
         except PermissionError as error:
             # Обработка ошибок, связанных с разрешением на доступ к файлу
             print(f"{error}")
-            print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
+            print(f"У Вас нет прав на открытие данного файла! {filename}")
             sys.exit(2)
 
     def add_entry(self, new_entry):
@@ -72,16 +78,13 @@ class TodoJournal:
         new_entry : str
             новая задача
         """
-        data = self._parse()
 
-        name = data["name"]
-        todos = data["todos"]
-
-        todos.append(new_entry)
+        if (new_entry not in self.entries):
+            self.entries.append(new_entry)
 
         new_data = {
-            "name": name,
-            "todos": todos,
+            "name": self.name,
+            "todos": self.entries,
         }
 
         self._update(new_data)
@@ -95,15 +98,12 @@ class TodoJournal:
         index : int
             индекс удаляемой тудушки
         """
-        data = self._parse()
-        name = data["name"]
-        todos = data["todos"]
 
-        todos.remove(todos[index])
+        self.entries.pop(index)
 
         new_data = {
-            "name": name,
-            "todos": todos,
+            "name": self.name,
+            "todos": self.entries,
         }
 
         self._update(new_data)
@@ -136,6 +136,28 @@ class TodoJournal:
             print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
             sys.exit(2)
 
+    def __len__(self):
+        """Возвращает количество задач"""
+        return len(self.entries)
+
+    def __iter__(self):
+        return iter(self.entries)
+
+    def __next__(self):
+        length = self.__len__()
+        if self.counter > length:
+            raise StopIteration
+
+        else:
+            self.counter += 1
+        return self.entries[self.counter - 1]
+
+    def __getitem__(self, item):
+        if 0 <= item < len(self.entries):
+            return self.entries[item]
+        else:
+            raise IndexError("Неверный индекс")
+
     def _parse(self):
         """
         чтение json файла
@@ -156,11 +178,12 @@ class TodoJournal:
             print(f"{error}")
             print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
             sys.exit(2)
+'''def main():
+    TodaysTodos = TodoJournal('../task4.json')
+    for i in TodaysTodos:
+        print(i)
+    print(TodaysTodos[1])
 
-
-def main():
-    TodaysTodos = TodoJournal('./task3.json', 'cosa io viglio fare oggi')
-    TodaysTodos.add_entry("litigare")
 
 if __name__ == '__main__':
-    main()
+    main()'''
