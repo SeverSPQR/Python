@@ -4,7 +4,7 @@
 # pylint: disable=protected-access
 import json
 import pytest
-from ..src.TodoJournal import TodoJournal
+from src.TodoJournal import TodoJournal
 
 
 @pytest.fixture
@@ -61,12 +61,17 @@ def test_parse(json_prepare):
     assert arr == data["todos"]
 
 
-def test_init():
+def test_init(json_prepare):
     """Проверка корректности инициализации TodoJournal"""
-    expected_entries = []
-    expected_name = "test_todo"
-
-    todo = TodoJournal("data/test_todo")
+    expected_entries = ["dormire",
+                    "andare in chiesa",
+                    "indulgere",
+                    "lavare via i peccati",
+                    "fare scherzi",
+                    "litigare"]
+    expected_name = "cosa io viglio fare oggi"
+    filename = json_prepare
+    todo = TodoJournal(filename)
     entries = todo.entries
     name = todo.name
 
