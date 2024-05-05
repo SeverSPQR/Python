@@ -6,6 +6,15 @@ import json
 import pytest
 from src.TodoJournal import TodoJournal
 
+@pytest.fixture
+def tmpdir():
+    filename = '../task4.json'
+    with open(filename, "w", encoding="utf-8") as file:
+        data = {"name": "test",
+                "todos": []
+                }
+        json.dump(data, file)
+    return filename
 
 @pytest.fixture
 def json_prepare():
@@ -22,6 +31,8 @@ def json_prepare():
                 }
         json.dump(data, file)
     return filename
+
+
 
 
 def test_len(json_prepare):
@@ -77,3 +88,17 @@ def test_init(json_prepare):
 
     assert entries == expected_entries
     assert name == expected_name
+
+
+def test_create_journal(tmpdir):
+    filename = tmpdir
+    todo = TodoJournal(filename)
+
+    expected_todo = {
+            'name': 'test',
+            'todos': []
+        }
+
+    TodoJournal.create(filename, "test")
+
+    assert expected_todo == todo._parse()
