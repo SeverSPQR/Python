@@ -87,7 +87,7 @@ def test_removeentry(json_prepare):
     assert len(journal._parse()["todos"]) == 5
 
 
-def test_parse(json_prepare):
+def test_parse1(json_prepare):
     """_parse должен получать данные о задачах из объекта TodoJournal"""
     filename = json_prepare
     arr = ["dormire",
@@ -100,6 +100,10 @@ def test_parse(json_prepare):
     data = journal._parse()
     assert arr == data["todos"]
 
+
+def test_parse2():
+    with pytest.raises(SystemExit):
+        todo_jrnl = TodoJournal("./path/without/todo")
 
 def test_init(json_prepare):
     """Проверка корректности инициализации TodoJournal"""
