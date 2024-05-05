@@ -136,6 +136,17 @@ class TodoJournal:
             print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
             sys.exit(2)
 
+    # ниже статическое поле класса
+    shortcut_names = {"first": 0, "last": -1}
+
+    def __getattr__(self, item):
+        index = self.shortcut_names.get(item, None)
+        if index is not None:
+            return self.entries[index]
+
+        cls = type(self)
+        raise AttributeError(f"{cls.__name__} object has no attribute {item}")
+
     def __len__(self):
         """Возвращает количество задач"""
         return len(self.entries)
@@ -178,6 +189,13 @@ class TodoJournal:
             print(f"{error}")
             print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
             sys.exit(2)
+
+
+todo = TodoJournal('../task4.json')
+print(todo.first)
+todo.first = "test"
+print(todo.first)
+print(todo[0])
 '''def main():
     TodaysTodos = TodoJournal('../task4.json')
     for i in TodaysTodos:
