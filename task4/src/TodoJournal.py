@@ -190,6 +190,7 @@ class TodoJournal:
             print(f"У Вас нет прав на открытие данного файла! {self.path_todo}")
             sys.exit(2)
 
+
 '''def main():
     TodaysTodos = TodoJournal('../task4.json')
     for i in TodaysTodos:
